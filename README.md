@@ -1,93 +1,126 @@
-# Python Flask ReplAuth
+# Flask Repl Auth Web Application
 
-Using the ReplAuth with Flask is super easy! First we create a new Flask app: 
+## Introduction
+This is a basic Flask web application that allows Replit users to authenticate using Repl Auth. Once authenticated, the user's account information is displayed on the web page.
 
-<details>
-  <summary>Import Flask and create new Flask app</summary>
+## Prerequisites
+Replit Account - Ensure you have a Replit account to run and test the application.
 
-```python
+## Getting Started
+Create a new Python repl on Replit and give it a name.
+
+Open the main.py file and add the provided Flask code.
+
+python
+
 from flask import Flask, render_template, request
+
 app = Flask('app')
+
 @app.route('/')
-```
-</details>
 
-And then we request the headers: 
+def home():
 
-<details>
-  <summary>Requested Headers:</summary>
+  return render_template('index.html')
 
-```python
-def hello_world():
-    print(request.headers)
+app.run(host='0.0.0.0', port=8080)
+
+Create a templates folder in the root directory and add a new file named index.html with the provided HTML code.
+
+html
+
+Copy code
+
+<!DOCTYPE html>
+
+<html>
+  
+  <head>
+    
+    <title>Repl Auth</title>
+    
+  </head>
+  
+  <body>
+    
+    Hello !
+    
+  </body>
+</html>
+Run the code, and you should see 'Hello, Replit!' in the browser.
+
+## Authentication
+To enable authentication, add the following script within the body of the index.html page:
+
+html
+
+<div>
+  
+  <script
+    
+    authed="location.reload()"
+    
+    src="https://auth.util.repl.co/script.js"
+    
+  ></script>
+  
+</div>
+
+This script provides a "Login with Replit" button.
+
+## Retrieving User Information
+To retrieve user information, update the home() function in main.py:
+
+python
+
+@app.route('/')
+
+def home():
+
     return render_template(
+    
         'index.html',
+        
         user_id=request.headers['X-Replit-User-Id'],
+        
         user_name=request.headers['X-Replit-User-Name'],
-        user_roles=request.headers['X-Replit-User-Roles'],
-        user_bio=request.headers['X-Replit-User-Bio'],
-        user_profile_image=request.headers['X-Replit-User-Profile-Image'],
-        user_teams=request.headers['X-Replit-User-Teams'],
-        user_url=request.headers['X-Replit-User-Url']
+        
+        user_roles=request.headers['X-Replit-User-Roles']
+        
     )
-```
-</details>
+    
+Update the index.html file to display user information:
 
-In this code we've requested all the possible headers, which are these:
+html
 
-<details>
-  <summary>All Replit Headers</summary>
-
-```python
-X-Replit-User-Bio
-X-Replit-User-Id
-X-Replit-User-Name
-X-Replit-User-Profile-Image
-X-Replit-User-Roles
-X-Replit-User-Teams
-X-Replit-User-Url
-```
-</details>
-
-Once we've requested all these headers, we can show the information we've got after the user has passed through the Auth. This info will be displayed on the console, but can also be displayed in a html file.
-
-We can show this by displaying the variable assigned to a header in a HTML tag (it can also be shown without a tag). If we wanted to show the username of the user we would put this:
-
-```html
-<h1>{{ user_name }}</h1>
-```
-
-And the output will be a heading (h1) with the username. 
-
-# ReplAuth FAQ 
-
-The question is in a quote and in italic and the answer is in a bullet point.
-
-<details>
-  <summary>ReplAuth FAQ</summary>
+<body>
   
-  > *How many ReplAuths are there?*
+  {% if user_id %}
   
-  - There are 2 repl auths!
- ---
-  > *Which ReplAuths are there?*
+  <h1>Hello, {{ user_name }}!</h1>
   
-  - Node.js and Python Flask
----
-  > *Is there a Replit Documentation on ReplAuths?*
+  <p>Your user id is {{ user_id }}.</p>
+  
+  {% else %} Hello! Please log in.
+  
+  <div>
+    
+    <script
+    
+      authed="location.reload()"
+      
+      src="https://auth.util.repl.co/script.js"
+      
+    ></script>
+    
+  </div>
+  
+  {% endif %}
+  
+</body>
 
-  - Yes! You can find it in the [Replit Docs](https://docs.replit.com)
-</details>
+![Repl flask Auth ](https://github.com/Mithun1508/Python-Flask-Authentication-/assets/93249038/13c190b5-d6af-4562-9e3b-ad1f2bbb0dbe)
 
-# Template
+## License
+This project is licensed under the MIT License.
 
-**Name**: Python Flask ReplAuth
-
-**Description**: Python Flask ReplAuth is easy and useful to use! What are you waiting for? Start using ReplAuth today!
-
-# Questions?
-
-If you have any question please look at our support resources:
-
-- [Replit Docs](https://docs.replit.com)
-- [Ask forum](https://ask.replit.com)
